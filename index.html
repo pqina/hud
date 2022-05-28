@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>@pqina/hud</title>
+        <style>
+            body {
+                padding: 2em;
+                background: #333;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+                    Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            }
+            p {
+                color: #666;
+                font-size: 1em;
+            }
+            /* body {
+                color: #ef4444;// red
+            }
+            body {
+                color: #f97316;// orange
+            }
+            body {
+                color: #f59e0b; // amber
+            }
+            body {
+                color: #eab308; // yellow
+            }
+            body {
+                color: #84cc16; // lime
+            }
+            body {
+                color: #22c55e; // green
+            }
+            body {
+                color: #10b981; // emerald
+            }
+            body {
+                color: #14b8a6; // teal
+            }
+            body {
+                color: #06b6d4; // cyan
+            }
+            body {
+                color: #0ea5e9; // sky
+            }
+            body {
+                color: #3b82f6; // blue
+            }
+            body {
+                color: #6366f1; // indigo
+            }
+            body {
+                color: #8b5cf6; // violet
+            }
+            body {
+                color: #a855f7; // purple
+            }
+            body {
+                color: #d946ef; // fuchsia
+            }
+            body {
+                color: #ec4899; // pink
+            }
+            body {
+                color: #f43f5e; // rose
+            } */
+        </style>
+    </head>
+    <body>
+        <script src="./hud.js"></script>
+
+        <script>
+            // let i = 0;
+            // setInterval(() => {
+            // hud.clear();
+
+            // hud.strength(2);
+
+            // hud.opacity(1);
+
+            // horizontal line
+            // hud(-50);
+
+            // vertical line
+            // hud(50);
+
+            // text
+            // hud('hello world', 75, 200);
+
+            // dot
+            hud(150, 200);
+
+            hud({
+                x: 250,
+                y: 200,
+            });
+
+            hud({
+                x: 350,
+                y: 200,
+            });
+
+            // line
+
+            // hud.precision(3);
+
+            // hud({
+            //     begin: {
+            //         x: 510,
+            //         y: 110,
+            //     },
+            //     end: {
+            //         x: 410,
+            //         y: 340,
+            //     },
+            // }).angle();
+
+            hud(
+                {
+                    x: 510,
+                    y: 110,
+                },
+                {
+                    x: 410,
+                    y: 340,
+                },
+                {
+                    x: 810,
+                    y: 440,
+                }
+            )
+                .pink()
+                .angle();
+            // .length();
+
+            // rect
+
+            // hud(200, 150, 100, 100, 20).size().points();
+
+            // hud(100, 100, 150, 250).angle();
+
+            // hud({
+            //     x: 300,
+            //     y: 50,
+            //     width: 100,
+            //     height: 100,
+            //     rotation: 45,
+            // });
+            //      .points()
+            //      .length()
+            //     .angle();
+
+            // circle
+            // hud(500, 400, 50);
+
+            // hud({
+            //     x: 400,
+            //     y: 400,
+            //     r: 100,
+            // }).cyan();
+
+            // // path
+            // hud(
+            //     {
+            //         x: 50,
+            //         y: 310,
+            //     },
+            //     {
+            //         x: 310,
+            //         y: 240,
+            //     },
+            //     {
+            //         x: 310,
+            //         y: 540,
+            //     },
+            //     {
+            //         x: 110,
+            //         y: 440,
+            //     }
+            // )
+            //     .angle()
+            //     .length();
+
+            // .length();
+
+            // grouped
+            // hud([
+            //     {
+            //         x: 200,
+            //         y: 600,
+            //     },
+            //     [15],
+            //     {
+            //         x: 200,
+            //         y: 600,
+            //         r: 40,
+            //     },
+            //     [40, 40, 40, 40],
+            // ]);
+            // }, 500);
+        </script>
+
+        <script>
+            for (let i = 0; i < 100; i++) {
+                const p = document.createElement('p');
+                p.textContent = i;
+                p.style.opacity = 0;
+                document.body.append(p);
+            }
+        </script>
+    </body>
+</html>
