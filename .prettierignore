@@ -1,7 +1,0 @@
-dist/**/*
-_public/pintura/**/*
-_public/vendor/**/*
-_public/image-input/**/*
-
-preset/react-native/assets/*
-local_modules/**/*

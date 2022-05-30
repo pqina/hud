@@ -280,6 +280,9 @@
         fuchsia: '#d946ef',
         pink: '#ec4899',
         rose: '#f43f5e',
+        white: '#fff',
+        black: '#000',
+        silver: '#c0c0c0',
     };
 
     const Colors = Object.values(Color);
@@ -524,6 +527,7 @@
             isNumber(param) ||
             // shape
             'x' in param ||
+            'x1' in param ||
             // line
             isLine(param) ||
             isPath(param)
@@ -547,16 +551,24 @@
     function getShapeFromParams(params) {
         // object shape definition
         if (params.length === 1 && typeof params[0] === 'object') {
-            if (isLine(params[0])) {
-                return Object.values(params[0]);
+            const [obj] = params;
+
+            if ('x1' in obj) {
+                return [
+                    { x: obj.x1, y: obj.y1 },
+                    { x: obj.x2, y: obj.y2 },
+                ];
             }
-            return params[0];
+
+            if (isLine(obj)) return Object.values(obj);
+
+            return obj;
         }
 
         const pl = params.length;
 
         // list of numbers
-        if (typeof params[0] === 'number') {
+        if (isNumber(params[0])) {
             // rect
             if (pl === 4 || pl === 5) {
                 const [x, y, width, height, rotation] = params;
@@ -593,7 +605,15 @@
 
     function getShapesFromParams(params) {
         // list of shapes
-        if (Array.isArray(params[0])) return params[0];
+        if (Array.isArray(params[0])) {
+            // is array of points, treat as path
+            if (params[0].every(isVector)) {
+                return [params[0]];
+            }
+
+            // is group of different shape definitions
+            return params[0];
+        }
 
         // single shape
         return [params];
@@ -667,6 +687,7 @@
 
         // apply actions in queue
         queue.forEach((action) => {
+            console.log('draw');
             const [, fn, params = []] = action;
             return fn(...params);
         });
@@ -771,6 +792,8 @@
             points = rectToCorners(shape);
         } else if (isPath(shape)) {
             points = shape;
+        } else if (isVector(shape)) {
+            points = [shape];
         } else {
             return;
         }
@@ -780,7 +803,7 @@
         points.forEach((point, index) => {
             logValue(point, [point.x, point.y], {
                 color,
-                prefix: `•${index}`,
+                prefix: `•${points.length > 1 ? index : ''}`,
                 textOffset: vectorCreate(4, 4),
                 textAlign: center && (point.x > center.x ? 'left' : 'right'),
                 textBaseline: center && (point.y > center.y ? 'bottom' : 'top'),
@@ -848,7 +871,10 @@
         if (!firstCallerId) firstCallerId = callerId;
 
         // automatically queue clear before first call
-        if (firstCallerId === callerId) hud.clear();
+        if (firstCallerId === callerId) {
+            queue.length = 0;
+            hud.clear();
+        }
 
         // queue this action for drawing
         queue.push([undefined, action, params]);
@@ -891,7 +917,10 @@
             ],
 
             // logging
-            [() => logShapeCoordinates, ['corners', 'points', 'coords', 'coordinates']],
+            [
+                () => logShapeCoordinates,
+                ['position', 'positions', 'corners', 'points', 'coords', 'coordinates'],
+            ],
             [() => logShapeAngles, ['angle', 'angles', 'deg', 'rad']],
             [() => logShapeSizes, ['length', 'lengths', 'size', 'edges', 'dimensions']],
         ].forEach(([fn, keys]) => {
@@ -912,12 +941,36 @@
         queueAction(clearContext);
         return hud;
     };
-    hud.opacity = (...params) => queueAction(setDrawOpacity, params);
-    hud.translate = (...params) => queueAction(translateContext, params);
-    hud.scale = (...params) => queueAction(scaleContext, params);
-    hud.strength = (...params) => queueAction(setDrawStrength, params);
-    hud.color = (...params) => queueAction(setDrawColor, params);
-    hud.precision = (...params) => queueAction(setValueRounding, params);
+
+    hud.opacity = (...params) => {
+        queueAction(setDrawOpacity, params);
+        return hud;
+    };
+
+    hud.translate = (...params) => {
+        queueAction(translateContext, params);
+        return hud;
+    };
+
+    hud.scale = (...params) => {
+        queueAction(scaleContext, params);
+        return hud;
+    };
+
+    hud.strength = (...params) => {
+        queueAction(setDrawStrength, params);
+        return hud;
+    };
+
+    hud.color = (...params) => {
+        queueAction(setDrawColor, params);
+        return hud;
+    };
+
+    hud.precision = (...params) => {
+        queueAction(setValueRounding, params);
+        return hud;
+    };
 
     // create
     createCanvas();
