@@ -1,14 +1,14 @@
 # HUD
 
-An easy way to visually debug 2D shapes.
+An easy way to visually debug 2D shapes. ([animation](https://twitter.com/rikschennink/status/1531199830076317697?s=20&t=PcYPyAEA8as71lj0wrLNwg))
 
-Add to page body
+Add the script to the document:
 
 ```html
 <script src="hud.js"></script>
 ```
 
-Now you can draw info to the viewport.
+Now we can draw info to the viewport.
 
 This will draw a cyan dot on the viewport at position `50, 50`
 
