@@ -681,13 +681,9 @@
 
         // reset color index to first value
         resetDrawState();
-
-        // draw rulers
-        // drawRulers();
-
+        
         // apply actions in queue
         queue.forEach((action) => {
-            console.log('draw');
             const [, fn, params = []] = action;
             return fn(...params);
         });
